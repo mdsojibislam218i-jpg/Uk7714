@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Aviator Demo - Auth & Game</title>
+<style>
+*{box-sizing:border-box}html,body{margin:0;min-height:100%;background:#080a0f;color:#fff;font-family:Arial,sans-serif}body{padding:0}.app{width:100%;max-width:520px;margin:auto;min-height:100vh;background:#11151d;box-shadow:0 0 40px rgba(0,0,0,.45);padding-bottom:74px}.screen{display:none}.screen.active{display:block}.header{height:62px;background:#171c26;display:flex;align-items:center;justify-content:space-between;padding:0 16px;border-bottom:1px solid #292f3b}.logo{font-size:23px;font-weight:900}.logo span{font-size:27px}.balance{background:#242b37;padding:9px 12px;border-radius:20px;font-weight:900}.card{margin:12px;background:#191f29;border:1px solid #2a303b;border-radius:14px;padding:16px}.hero{padding:20px 16px;background:linear-gradient(135deg,#191f29,#10151d)}.stat{display:flex;justify-content:space-between;gap:12px;margin:10px 0;color:#aeb7c6}.stat strong{color:#fff;text-align:right}.row{display:flex;gap:8px}.field{flex:1;min-width:0}.field label,label{display:block;color:#9da7b6;font-size:12px;margin-bottom:6px}input{width:100%;background:#0e1218;border:1px solid #303846;color:#fff;padding:12px;border-radius:8px;font-size:16px;outline:none}input:focus{border-color:#6d7788}button{border:0;border-radius:9px;padding:12px;font-weight:800;font-size:15px;cursor:pointer}.bet{background:#2a303b;color:#fff;width:100%}.cash{background:#20b56b;color:#fff;width:100%;margin-top:8px}.cash:disabled{opacity:.35;cursor:not-allowed}.small{background:#252c37;color:#dce2eb}.note{font-size:11px;color:#7f8999;text-align:center;margin:12px;line-height:1.5}.game{margin:12px;border-radius:12px;overflow:hidden;background:#080b10;border:1px solid #272e39}.sky{height:410px;position:relative;overflow:hidden;background:linear-gradient(#101a2a,#0a0d13)}.mult{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:55px;font-weight:900;color:#fff;text-shadow:0 2px 12px #000;z-index:4}.status{position:absolute;top:15px;left:15px;right:15px;display:flex;justify-content:space-between;z-index:5;color:#aeb7c6;font-size:13px}.grid{position:absolute;inset:0;opacity:.18;background-image:linear-gradient(#72809a 1px,transparent 1px),linear-gradient(90deg,#72809a 1px,transparent 1px);background-size:45px 45px;transform:skewY(-10deg) scale(1.4);transform-origin:bottom}.plane{position:absolute;left:12%;bottom:13%;font-size:48px;z-index:6;filter:drop-shadow(0 5px 8px #000)}.line{position:absolute;left:-20%;bottom:10%;width:150%;height:4px;background:#ff334f;transform:rotate(-16deg);transform-origin:left;box-shadow:0 0 15px #ff334f;z-index:3}.crashed .mult{color:#ff4961}.panel{padding:0 12px}.box{background:#191f29;border-radius:12px;padding:12px;margin-bottom:10px}.history{display:flex;gap:7px;overflow:hidden;margin-top:10px;padding:0 10px 10px}.pill{padding:6px 9px;border-radius:15px;background:#26303c;font-size:12px;color:#7ed6a7}.pill.hot{color:#ffcf72}.nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:520px;background:#151a23;border-top:1px solid #2a303b;display:grid;grid-template-columns:repeat(3,1fr);padding:7px 8px;z-index:200}.nav button{background:transparent;color:#8e98a8;padding:9px 4px;font-size:12px}.nav button.active{color:#fff;background:#222936}.list{display:grid;gap:8px}.item{background:#11161e;padding:12px;border-radius:10px;display:flex;justify-content:space-between}.nickname-box{background:#11161e;border:1px solid #2a303b;border-radius:10px;padding:12px}.nickname-head{display:flex;align-items:center;justify-content:space-between;gap:8px}.nickname-title{font-size:18px;font-weight:900}.nickname-value{font-size:14px;color:#dce2eb;margin-top:4px}.nickname-edit{background:#252c37;color:#fff;padding:9px 12px}.nickname-form{display:none;margin-top:10px}.nickname-form.show{display:block}.nickname-msg{font-size:12px;color:#9da7b6;margin-top:8px;min-height:18px}.profile-action-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px}.profile-action-btn{border:0;border-radius:14px;padding:15px 10px;color:#fff;font-weight:900;font-size:16px;cursor:pointer;box-shadow:0 8px 20px rgba(0,0,0,.2)}.deposit-btn{background:linear-gradient(135deg,#00c853,#00a844)}.money-btn{background:linear-gradient(135deg,#ffb300,#f57c00)}.profile-modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.82);z-index:300;align-items:center;justify-content:center;padding:14px;overflow:auto}.profile-modal.show{display:flex}.profile-modal-card{width:min(470px,100%);max-height:92vh;overflow:auto;margin:0}.modal-top{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px}.modal-close{background:#252b35;color:#fff;border-radius:9px;width:38px;height:38px;padding:0;font-size:22px}.payment-method-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin:10px 0 12px}.payment-logo{border:1px solid #303744;background:#11161e;border-radius:12px;padding:10px 5px;text-align:center;color:#fff;font-weight:900;transition:.15s}.payment-logo.active{border-color:#fff;box-shadow:0 0 0 2px rgba(255,255,255,.08);transform:translateY(-1px)}.payment-logo .logo{display:inline-flex;align-items:center;justify-content:center;width:42px;height:38px;border-radius:10px;margin-bottom:5px;font-size:10px}.bkash-logo{background:#e2136e}.nagad-logo{background:#f58220}.rocket-logo{background:#6b2fa3}.quick-amounts{display:flex;flex-wrap:wrap;gap:7px;margin:9px 0}.quick-amount{flex:1 1 calc(33.333% - 7px);min-width:72px;background:#202733;color:#fff;border:1px solid #303846;padding:9px 7px;font-size:13px}.quick-amount.active{border-color:#fff;background:#2d3542}.bonus-box{background:#10261b;border:1px solid #1f7a49;border-radius:12px;padding:11px;margin:10px 0}.bonus-title{font-size:14px;font-weight:900;margin-bottom:6px}.bonus-row{display:flex;justify-content:space-between;gap:8px;margin:5px 0;font-size:13px}.bonus-row strong{color:#7ed6a7}.demo-number{margin-top:10px;background:#11161e;border-radius:10px;padding:12px}.demo-number-value{font-size:18px;font-weight:900;margin-top:4px}.money-tabs{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-bottom:12px}.money-tab{background:#202733;color:#aeb7c6}.money-tab.active{background:#fff;color:#111}.history-list{display:grid;gap:8px}.history-item{background:#11161e;border:1px solid #252c37;border-radius:10px;padding:11px}.history-item-top{display:flex;justify-content:space-between;gap:8px}.pending{color:#ffd166}.modal-note{font-size:11px;color:#7f8999;line-height:1.5}.success-box{background:#10261b;border:1px solid #1f7a49;border-radius:12px;padding:15px;text-align:center}.success-icon{font-size:42px}.success-title{font-size:20px;font-weight:900;margin:5px 0}.danger{color:#ff7888}.info{color:#8fd3ff}
+
+/* Auth & Loading Screen CSS */
+.auth-container{max-width:420px;margin:60px auto;padding:20px}.auth-card{background:#191f29;border:1px solid #2a303b;border-radius:16px;padding:24px}.auth-tabs{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:20px;background:#11161e;padding:4px;border-radius:10px}.auth-tab{background:transparent;color:#9da7b6;padding:10px;border-radius:8px;font-weight:bold;cursor:pointer}.auth-tab.active{background:#202733;color:#fff}
+.loading-overlay{display:none;position:fixed;inset:0;background:rgba(8,10,15,0.85);z-index:999;align-items:center;justify-content:center;flex-direction:column}.loading-overlay.show{display:flex}.spinner{width:50px;height:50px;border:4px solid #303846;border-top-color:#20b56b;border-radius:50%;animation:spin 0.8s linear infinite;margin-bottom:15px}@keyframes spin{to{transform:rotate(360deg)}}.loading-text{font-size:16px;font-weight:bold;color:#fff;letter-spacing:1px}
+@media(max-width:420px){.profile-action-btn{font-size:14px;padding:13px 7px}.sky{height:360px}.mult{font-size:46px}.row{gap:6px}}
+</style>
+</head>
+<body>
+
+<!-- সুন্দর লোডিং ওভারলে স্ক্রিন -->
+<div id="loadingOverlay" class="loading-overlay">
+  <div class="spinner"></div>
+  <div id="loadingText" class="loading-text">দয়া করে অপেক্ষা করুন...</div>
+</div>
+
+<div class="app">
+  
+  <!-- অথেন্টিকেশন (লগইন / রেজিস্টার) স্ক্রিন -->
+  <div id="authScreen" class="screen active">
+    <div class="auth-container">
+      <div style="text-align:center;margin-bottom:20px">
+        <div style="font-size:36px">✈️</div>
+        <div style="font-size:24px;font-weight:900;margin-top:5px">Aviator Demo</div>
+        <div style="font-size:13px;color:#9da7b6">আপনার অ্যাকাউন্ট দিয়ে প্রবেশ করুন</div>
+      </div>
+      
+      <div class="auth-card">
+        <div class="auth-tabs">
+          <button id="tabLoginBtn" class="auth-tab active" type="button" onclick="switchAuthTab('login')">লগইন</button>
+          <button id="tabRegisterBtn" class="auth-tab" type="button" onclick="switchAuthTab('register')">রেজিস্ট্রেশন</button>
+        </div>
+
+        <!-- লগইন ফর্ম -->
+        <div id="loginFormContainer">
+          <label>মোবাইল নম্বর</label>
+          <input id="loginPhone" type="tel" placeholder="01XXXXXXXXX" style="margin-bottom:12px">
+          
+          <label>পাসওয়ার্ড</label>
+          <input id="loginPassword" type="password" placeholder="আপনার পাসওয়ার্ড দিন" style="margin-bottom:16px">
+          
+          <button class="cash" type="button" onclick="handleLogin()">লগইন করুন</button>
+          <div id="loginMsg" class="modal-note" style="margin-top:10px;text-align:center;color:#ff7888"></div>
+        </div>
+
+        <!-- রেজিস্ট্রেশন ফর্ম -->
+        <div id="registerFormContainer" style="display:none">
+          <label>আপনার নাম (Nickname)</label>
+          <input id="regName" type="text" placeholder="আপনার নাম লিখুন" style="margin-bottom:12px">
+
+          <label>মোবাইল নম্বর</label>
+          <input id="regPhone" type="tel" placeholder="01XXXXXXXXX" style="margin-bottom:12px">
+          
+          <label>পাসওয়ার্ড (কমপক্ষে ৬ অক্ষর)</label>
+          <input id="regPassword" type="password" placeholder="নতুন পাসওয়ার্ড দিন" style="margin-bottom:16px">
+          
+          <button class="cash" type="button" onclick="handleRegister()">একাউন্ট তৈরি করুন</button>
+          <div id="regMsg" class="modal-note" style="margin-top:10px;text-align:center;color:#ff7888"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- মূল হোম স্ক্রিন -->
+  <div id="homeScreen" class="screen">
+    <div class="header"><div class="logo"><span>✈️</span> Aviator</div><div style="display:flex;align-items:center;gap:10px"><div class="balance">💰 ৳ <span id="homeBalance">10,000</span></div><button onclick="handleLogout()" style="background:#252b35;color:#ff7888;padding:6px 10px;font-size:11px;border-radius:8px">লগআউট</button></div></div>
+    <div class="card hero"><div style="font-size:13px;color:#9da7b6">AVIATOR</div><div style="font-size:28px;font-weight:900;margin:5px 0">Games</div><div style="color:#aeb7c6">Virtual crash-game demo</div></div>
+    
+    <div class="card" style="background:linear-gradient(135deg,#1e2636,#111722);border:1px solid #ffcf72">
+      <div style="display:flex;align-items:center;justify-content:space-between">
+        <div>
+          <div style="font-size:14px;color:#ffcf72;font-weight:900">🎁 REFERRAL PROGRAM</div>
+          <div style="font-size:18px;font-weight:900;margin:4px 0">রেফার করুন, পান ৳৩০০ বোনাস!</div>
+          <div style="font-size:12px;color:#aeb7c6">বন্ধুকে ইনভাইট করুন, সে ২০০০ টাকা ডিপোজিট করলেই আপনি পাবেন ৳৩০০।</div>
+        </div>
+        <div style="font-size:32px">🤝</div>
+      </div>
+      <button class="cash" style="margin-top:12px;background:linear-gradient(135deg,#ffb300,#f57c00)" type="button" onclick="openProfileModal('referModal')">REFER & EARN</button>
+    </div>
+
+    <div class="card"><div style="font-size:18px;font-weight:900;margin-bottom:10px">✈️ Aviator</div><div style="color:#9da7b6;font-size:13px;margin-bottom:12px">বিমান উড়বে, multiplier বাড়বে এবং round crash হবে।</div><button class="cash" onclick="showScreen('gameScreen')">OPEN GAME</button></div>
+    <div class="card"><div style="font-size:17px;font-weight:900;margin-bottom:10px">📊 Recent Crash</div><div id="homeHistory" class="list"><div class="item"><span>Round</span><strong>Waiting...</strong></div></div></div>
+    <div class="note">এটি শুধুমাত্র ভার্চুয়াল-কয়েন ডেমো। কোনো আসল টাকা বা বাস্তব পেমেন্ট প্রসেস করা হয় না।</div>
+  </div>
+
+  <div id="gameScreen" class="screen">
+    <div class="header">
+      <div class="logo"><span>✈️</span> Aviator</div>
+      <div style="display:flex;align-items:center;gap:8px;">
+        <button type="button" onclick="openProfileModal('referModal')" style="background:linear-gradient(135deg,#ffb300,#f57c00);color:#fff;border:0;padding:6px 12px;border-radius:15px;font-weight:900;font-size:12px;cursor:pointer;">🎁 Refer</button>
+        <div class="balance">💰 ৳ <span id="balance">10,000</span></div>
+      </div>
+    </div>
+    <div class="game"><div class="sky" id="sky"><div class="status"><span id="round">ROUND #001</span><span id="state">FLYING</span></div><div id="countdown" style="display:none;position:absolute;inset:0;z-index:10;align-items:center;justify-content:center;background:rgba(5,7,10,.72);font-size:34px;font-weight:900;text-align:center">Next Round<br><span id="countNum" style="font-size:64px">10</span></div><div class="grid"></div><div class="line"></div><div class="plane" id="plane">✈️</div><div class="mult" id="mult">1.00×</div></div><div class="history" id="history"></div></div>
+    <div class="panel"><div class="box"><div style="font-weight:800;margin-bottom:10px">দুইটি Bet Slot</div><div class="row"><div class="field"><label>Bet 1 — Amount (Max ৳20,000)</label><input id="bet1" type="number" min="10" max="20000" value="100"></div><div class="field"><label>Bet 1 — Auto Cash Out</label><input id="auto1" type="number" min="1.01" max="2000" step="0.01" value="2.00"></div></div><button class="bet" id="betBtn1" onclick="placeBet(1)" style="margin-top:8px">BET 1</button><button class="cash" id="cashBtn1" onclick="cashOut(1)" disabled>CASH OUT 1</button><div style="height:12px"></div><div class="row"><div class="field"><label>Bet 2 — Amount (Max ৳20,000)</label><input id="bet2" type="number" min="10" max="20000" value="200"></div><div class="field"><label>Bet 2 — Auto Cash Out</label><input id="auto2" type="number" min="1.01" max="2000" step="0.01" value="3.00"></div></div><button class="bet" id="betBtn2" onclick="placeBet(2)" style="margin-top:8px">BET 2</button><button class="cash" id="cashBtn2" onclick="cashOut(2)" disabled>CASH OUT 2</button></div></div>
+    <div class="note">এটি একটি ভার্চুয়াল Aviator demo।</div>
+  </div>
+
+  <div id="profileScreen" class="screen">
+    <div class="header"><div class="logo">👤 Profile</div><div class="balance">💰 ৳ <span id="profileBalance">10,000</span></div></div>
+    <div class="card"><div class="stat"><span>Mobile Number</span><strong id="profilePhone">01XXXXXXXXX</strong></div><div class="stat"><span>Balance</span><strong>৳ <span id="profileBalance2">10,000</span></strong></div></div>
+    <div class="card"><div class="nickname-box"><div class="nickname-head"><div><div class="nickname-title">✨ Nickname</div><div class="nickname-value" id="profileNickname">Not set</div></div><button class="nickname-edit" type="button" onclick="toggleNicknameForm()">✏️ Edit</button></div><div id="nicknameForm" class="nickname-form"><label>Your Nickname</label><input id="nicknameInput" type="text" maxlength="30" placeholder="Enter your nickname"><div class="row" style="margin-top:9px"><button class="small" style="flex:1" type="button" onclick="toggleNicknameForm()">Cancel</button><button class="cash" style="flex:1;margin:0" type="button" onclick="saveNickname()">Save</button></div><div id="nicknameMsg" class="nickname-msg"></div></div></div></div>
+    <div class="profile-action-grid"><button class="profile-action-btn deposit-btn" type="button" onclick="openProfileModal('depositModal')">📥 Deposit<span>Deposit + 20% Bonus</span></button><button class="profile-action-btn money-btn" type="button" onclick="openProfileModal('moneyModal')">💰 Money<span>Balance + Withdraw</span></button></div>
+    <div class="card"><div style="font-size:18px;font-weight:900;margin-bottom:10px">⚙️ Settings</div><button class="small" style="width:100%" onclick="openPasswordModal()">🔐 Transaction Password</button><div id="passwordStatus" style="font-size:12px;color:#9da7b6;margin-top:9px">Password not set</div></div>
+    <div class="note">Profile-এর Deposit, Money ও Security ফাংশন উপরের বাটনে কাজ করবে।</div>
+  </div>
+
+  <!-- REFERRAL MODAL -->
+  <div id="referModal" class="profile-modal" onclick="modalBackdrop(event,'referModal')">
+    <div class="card profile-modal-card">
+      <div class="modal-top">
+        <div style="font-size:21px;font-weight:900">🎁 Referral Program</div>
+        <button class="modal-close" type="button" onclick="closeProfileModal('referModal')">×</button>
+      </div>
+      <div class="modal-note">আপনার ইউনিক রেফার কোড শেয়ার করুন। বন্ধু এই কোড ব্যবহার করে অ্যাকাউন্ট খুলে মোট ৳২,০০০ ডিপোজিট করলে আপনি পাবেন ৳৩০০ বোনাস!</div>
+      
+      <label style="margin-top:12px">আপনার রেফার কোড ও লিংক</label>
+      <div class="row">
+        <input id="myReferCode" type="text" value="" readonly style="font-weight:900;text-align:center;letter-spacing:1px">
+        <button class="small" type="button" onclick="copyReferCode()" style="padding:0 16px">Copy</button>
+      </div>
+
+      <div style="margin-top:14px">
+        <div style="font-size:13px;font-weight:900;margin-bottom:8px;color:#aeb7c6">সরাসরি শেয়ার করুন:</div>
+        <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:6px">
+          <button type="button" onclick="shareToSocial('whatsapp')" style="background:#25d366;color:#fff;border-radius:10px;padding:10px 0;display:flex;align-items:center;justify-content:center;cursor:pointer;border:0;height:42px" title="WhatsApp">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+          </button>
+          <button type="button" onclick="shareToSocial('imo')" style="background:#1976d2;color:#fff;border-radius:10px;padding:10px 0;display:flex;align-items:center;justify-content:center;cursor:pointer;border:0;height:42px" title="IMO">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14.5v-9l6 4.5-6 4.5z"/></svg>
+          </button>
+          <button type="button" onclick="shareToSocial('telegram')" style="background:#0088cc;color:#fff;border-radius:10px;padding:10px 0;display:flex;align-items:center;justify-content:center;cursor:pointer;border:0;height:42px" title="Telegram">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm5.894 8.221l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.446 1.394c-.14.14-.26.26-.534.26l.213-3.053 5.56-5.023c.242-.213-.054-.334-.373-.121l-6.871 4.326-2.962-.924c-.643-.204-.657-.643.136-.953l11.57-4.461c.537-.195 1.006.132.832.936z"/></svg>
+          </button>
+          <button type="button" onclick="shareToSocial('facebook')" style="background:#1877f2;color:#fff;border-radius:10px;padding:10px 0;display:flex;align-items:center;justify-content:center;cursor:pointer;border:0;height:42px" title="Facebook">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M9 8H6v4h3v12h5V12h3.642L18 8h-4V6.333C14 5.37 14.5 5 15.5 5H18V0h-3.808C10.59 0 9 1.581 9 4.75V8z"/></svg>
+          </button>
+          <button type="button" onclick="shareToSocial('browser')" style="background:#4a5568;color:#fff;border-radius:10px;padding:10px 0;display:flex;align-items:center;justify-content:center;cursor:pointer;border:0;height:42px" title="More Options">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <div class="bonus-box" style="margin-top:15px">
+        <div class="bonus-title">📊 আপনার রেফার স্ট্যাটাস</div>
+        <div class="bonus-row"><span>মোট রেফার সফল:</span><strong id="totalReferredCount">0 জন</strong></div>
+        <div class="bonus-row"><span>বোনাস অর্জিত:</span><strong id="totalReferBonus">৳0</strong></div>
+      </div>
+      <div class="modal-note" style="margin-top:10px">শর্তাবলী: যাকে রেফার করবেন তাকে অবশ্যই সফলভাবে কমপক্ষে ৳২,০০০ ডিপোজিট করতে হবে তবেই বোনাস যুক্ত হবে।</div>
+    </div>
+  </div>
+
+  <!-- DEPOSIT MODAL -->
+  <div id="depositModal" class="profile-modal" onclick="modalBackdrop(event,'depositModal')">
+    <div class="card profile-modal-card">
+      <div class="modal-top"><div style="font-size:21px;font-weight:900">📥 Deposit</div><button class="modal-close" type="button" onclick="closeProfileModal('depositModal')">×</button></div>
+      <div class="modal-note">Deposit screen — সব হিসাব এই demo-তে virtual balance হিসেবে যোগ হবে।</div>
+      <div class="bonus-box"><div class="bonus-title">🎁 Every Deposit — 20% Demo Bonus</div><div class="bonus-row"><span>Deposit</span><strong id="depositPreview">৳500</strong></div><div class="bonus-row"><span>Bonus (20%)</span><strong id="depositBonusPreview">৳100</strong></div><div class="bonus-row"><span>Total Demo Credit</span><strong id="depositTotalPreview">৳600</strong></div></div>
+      <div style="font-size:13px;font-weight:900;margin-top:12px">Payment Method</div>
+      <div class="payment-method-grid"><button id="depositMethodBkash" class="payment-logo active" type="button" onclick="selectMethod('bKash')"><span class="logo bkash-logo">bKash</span><br>bKash</button><button id="depositMethodNagad" class="payment-logo" type="button" onclick="selectMethod('Nagad')"><span class="logo nagad-logo">Nagad</span><br>Nagad</button><button id="depositMethodRocket" class="payment-logo" type="button" onclick="selectMethod('Rocket')"><span class="logo rocket-logo">Rocket</span><br>Rocket</button></div>
+      <div id="depositMethod" class="modal-note" style="margin-bottom:8px">Selected: bKash</div>
+      <label>Deposit Amount (৳100–৳5,000)</label><input id="depositAmount" type="number" min="100" max="5000" value="500" oninput="updateDepositPreview();clearQuickDepositActive()">
+      <div class="quick-amounts"><button class="quick-amount" type="button" onclick="setDepositAmount(100)">৳100</button><button class="quick-amount" type="button" onclick="setDepositAmount(200)">৳200</button><button class="quick-amount active" type="button" onclick="setDepositAmount(500)">৳500</button><button class="quick-amount" type="button" onclick="setDepositAmount(1000)">৳1,000</button><button class="quick-amount" type="button" onclick="setDepositAmount(2000)">৳2,000</button><button class="quick-amount" type="button" onclick="setDepositAmount(5000)">৳5,000</button></div>
+      
+      <label style="margin-top:10px">আপনার প্রেরক নম্বর (Sender Number)</label><input id="senderNum" type="text" placeholder="01XXXXXXXXX">
+
+      <div class="demo-number"><div class="modal-note">Demo payment number</div><div id="paymentNumber" class="demo-number-value">01XXXXXXXXX</div></div>
+      <label style="margin-top:10px">Demo Transaction ID</label><input id="depositTx" type="text" placeholder="Enter any demo transaction ID">
+      <button class="cash" type="button" onclick="submitDemoDeposit()">CONTINUE DEPOSIT</button>
+      <div id="depositMsg" class="modal-note" style="margin-top:9px;min-height:18px"></div>
+    </div>
+  </div>
+
+  <!-- DEPOSIT SUCCESS -->
+  <div id="depositSuccessModal" class="profile-modal" onclick="modalBackdrop(event,'depositSuccessModal')">
+    <div class="card profile-modal-card"><div class="modal-top"><div style="font-size:21px;font-weight:900">Deposit Result</div><button class="modal-close" onclick="closeProfileModal('depositSuccessModal')">×</button></div><div class="success-box"><div class="success-icon">⏳</div><div class="success-title">Deposit Request Pending</div><div class="bonus-row"><span>Deposit</span><strong id="successDeposit">৳0</strong></div><div class="bonus-row"><span>20% Bonus</span><strong id="successBonus">৳0</strong></div><div class="bonus-row"><span>Total Credit</span><strong id="successTotal">৳0</strong></div><div class="modal-note" style="margin-top:8px">অ্যাডমিন অ্যাপ্রুভ করার পর ব্যালেন্স যোগ হবে।</div><button class="cash" onclick="closeProfileModal('depositSuccessModal')">OK</button></div></div>
+  </div>
+
+  <!-- MONEY MODAL -->
+  <div id="moneyModal" class="profile-modal" onclick="modalBackdrop(event,'moneyModal')">
+    <div class="card profile-modal-card">
+      <div class="modal-top"><div style="font-size:21px;font-weight:900">💰 Money</div><button class="modal-close" type="button" onclick="closeProfileModal('moneyModal')">×</button></div>
+      <div class="card" style="margin:0 0 12px;background:#11161e"><div class="modal-note">Available Demo Balance</div><div style="font-size:29px;font-weight:900;margin-top:4px">৳ <span id="moneyBalance">10,000</span></div></div>
+      <div class="money-tabs"><button id="withdrawTab" class="money-tab active" onclick="showMoneyTab('withdraw')">📤 Withdraw</button><button id="historyTab" class="money-tab" onclick="showMoneyTab('history')">🧾 History</button></div>
+      <div id="withdrawPanel">
+        <div style="font-size:18px;font-weight:900;margin-bottom:10px">📤 Money / Withdraw</div>
+        <div class="payment-method-grid"><button id="withdrawMethodBkash" class="payment-logo active" onclick="selectWithdrawMethod('bKash')"><span class="logo bkash-logo">bKash</span><br>bKash</button><button id="withdrawMethodNagad" class="payment-logo" onclick="selectWithdrawMethod('Nagad')"><span class="logo nagad-logo">Nagad</span><br>Nagad</button><button id="withdrawMethodRocket" class="payment-logo" onclick="selectWithdrawMethod('Rocket')"><span class="logo rocket-logo">Rocket</span><br>Rocket</button></div>
+        <div id="withdrawMethod" class="modal-note" style="margin-bottom:8px">Selected: bKash</div>
+        <label>Withdraw Amount (৳100–৳20,000)</label><input id="withdrawAmount" type="number" min="100" max="20000" value="500">
+        <div class="quick-amounts"><button class="quick-amount" onclick="setWithdrawAmount(100)">৳100</button><button class="quick-amount" onclick="setWithdrawAmount(500)">৳500</button><button class="quick-amount" onclick="setWithdrawAmount(1000)">৳1,000</button><button class="quick-amount" onclick="setWithdrawAmount(5000)">৳5,000</button><button class="quick-amount" onclick="setWithdrawAmount(10000)">৳10,000</button><button class="quick-amount" onclick="setWithdrawAmount(20000)">৳20,000</button></div>
+        <label>Account Number</label><input id="withdrawNumber" type="tel" placeholder="Enter demo account number">
+        <label style="margin-top:10px">Transaction Password</label><input id="withdrawPassword" type="password" placeholder="Enter transaction password">
+        <button class="bet" style="margin-top:10px" onclick="submitDemoWithdraw()">REQUEST WITHDRAW</button>
+        <div id="withdrawMsg" class="modal-note" style="margin-top:9px;min-height:18px"></div>
+        <div class="modal-note" style="margin-top:9px">Maximum 99 demo withdrawal requests in a rolling 24-hour period. Requests older than 24 hours automatically leave the count.</div>
+      </div>
+      <div id="historyPanel" style="display:none"><div style="font-size:18px;font-weight:900;margin-bottom:10px">🧾 Withdraw History</div><div id="withdrawHistoryList" class="history-list"></div></div>
+    </div>
+  </div>
+
+  <!-- WITHDRAW SUCCESS -->
+  <div id="withdrawSuccessModal" class="profile-modal" onclick="modalBackdrop(event,'withdrawSuccessModal')"><div class="card profile-modal-card"><div class="modal-top"><div style="font-size:21px;font-weight:900">Withdraw Result</div><button class="modal-close" onclick="closeProfileModal('withdrawSuccessModal')">×</button></div><div class="success-box"><div class="success-icon">⏳</div><div class="success-title">Demo Request Submitted</div><div class="bonus-row"><span>Amount</span><strong id="successWithdraw">৳0</strong></div><div class="bonus-row"><span>Method</span><strong id="successWithdrawMethod">bKash</strong></div><div class="bonus-row"><span>Status</span><strong class="pending">Pending</strong></div><div class="modal-note" style="margin-top:8px">এটি virtual demo request। 24-hour demo status window দেখানো হবে।</div><button class="cash" onclick="closeProfileModal('withdrawSuccessModal')">OK</button></div></div></div>
+
+  <!-- PASSWORD MODAL -->
+  <div id="passwordModal" class="profile-modal" onclick="modalBackdrop(event,'passwordModal')"><div class="card profile-modal-card"><div class="modal-top"><div style="font-size:21px;font-weight:900">🔐 Transaction Password</div><button class="modal-close" onclick="closePasswordModal()">×</button></div><div class="modal-note" style="margin-bottom:12px">Demo security system — withdraw request-এর জন্য ব্যবহার হবে।</div><label>Current Password (change only)</label><input id="oldPw" type="password" placeholder="Old password"><label style="margin-top:10px">New Password</label><input id="newPw" type="password" placeholder="Minimum 6 characters"><label style="margin-top:10px">Confirm New Password</label><input id="confirmPw" type="password" placeholder="Confirm password"><div id="pwMsg" class="modal-note" style="margin-top:10px;min-height:18px"></div><div class="row" style="margin-top:12px"><button class="small" style="flex:1" onclick="closePasswordModal()">Cancel</button><button class="cash" style="flex:1;margin:0" onclick="saveTransactionPassword()">Save Password</button></div></div></div>
+
+  <div class="nav"><button id="navHome" class="active" onclick="showScreen('homeScreen')">⌂<br>Home</button><button id="navGame" onclick="showScreen('gameScreen')">✈️<br>Game</button><button id="navProfile" onclick="showScreen('profileScreen')">👤<br>Profile</button></div>
+</div>
+
+<script>
+let globalDb = JSON.parse(localStorage.getItem('aviator_full_db')) || {
+    numbers: { bKash: '01811223344', Nagad: '01711223344', Rocket: '01911223344' },
+    userBalance: 10000,
+    totalDeposit: 0,
+    totalUsers: 1,
+    requests: []
+};
+
+let usersDb = JSON.parse(localStorage.getItem('aviator_users_db')) || {};
+let currentUserPhone = localStorage.getItem('aviator_current_user') || null;
+
+let myReferCode = localStorage.getItem('aviator_my_refer_code');
+if(!myReferCode){
+    myReferCode = 'AVIATOR-' + Math.floor(1000 + Math.random() * 9000);
+    localStorage.setItem('aviator_my_refer_code', myReferCode);
+}
+
+let referStats = JSON.parse(localStorage.getItem('aviator_refer_stats')) || { count: 0, bonusEarned: 0 };
+
+let balance = globalDb.userBalance;
+let multiplier=1,crashed=false,roundNo=1,start=0,crashAt=0,countdownTimer=null;
+let bets={1:{active:false,amount:0},2:{active:false,amount:0}},history=[];
+const multEl=document.getElementById('mult'),stateEl=document.getElementById('state'),plane=document.getElementById('plane'),sky=document.getElementById('sky'),countdown=document.getElementById('countdown'),countNum=document.getElementById('countNum');
+
+function showLoading(text = "দয়া করে অপেক্ষা করুন...", callback){
+    const overlay = document.getElementById('loadingOverlay');
+    document.getElementById('loadingText').textContent = text;
+    overlay.classList.add('show');
+    setTimeout(() => {
+        overlay.classList.remove('show');
+        if(callback) callback();
+    }, 1000); // ১ সেকেন্ড সুন্দর লোডিং অ্যানিমেশন দেখাবে
+}
+
+function switchAuthTab(tab){
+    if(tab === 'login'){
+        document.getElementById('loginFormContainer').style.display = 'block';
+        document.getElementById('registerFormContainer').style.display = 'none';
+        document.getElementById('tabLoginBtn').classList.add('active');
+        document.getElementById('tabRegisterBtn').classList.remove('active');
+    } else {
+        document.getElementById('loginFormContainer').style.display = 'none';
+        document.getElementById('registerFormContainer').style.display = 'block';
+        document.getElementById('tabRegisterBtn').classList.add('active');
+        document.getElementById('tabLoginBtn').classList.remove('active');
+    }
+}
+
+function handleRegister(){
+    const name = document.getElementById('regName').value.trim();
+    const phone = document.getElementById('regPhone').value.trim();
+    const password = document.getElementById('regPassword').value;
+    const msg = document.getElementById('regMsg');
+
+    if(!name){ msg.textContent = 'দয়া করে আপনার নাম লিখুন।'; return; }
+    if(!phone || phone.length < 10){ msg.textContent = 'সঠিক মোবাইল নম্বর দিন।'; return; }
+    if(!password || password.length < 6){ msg.textContent = 'পাসওয়ার্ড কমপক্ষে ৬ অক্ষরের হতে হবে।'; return; }
+
+    if(usersDb[phone]){
+        msg.textContent = 'এই নম্বর দিয়ে ইতিমধ্যে একটি একাউন্ট রয়েছে। দয়া করে লগইন করুন।';
+        return;
+    }
+
+    showLoading("একাউন্ট তৈরি হচ্ছে...", () => {
+        usersDb[phone] = { name, password, balance: 10000 };
+        localStorage.setItem('aviator_users_db', JSON.stringify(usersDb));
+        
+        currentUserPhone = phone;
+        localStorage.setItem('aviator_current_user', phone);
+        balance = 10000;
+        
+        msg.textContent = '';
+        checkAuthStatus();
+    });
+}
+
+function handleLogin(){
+    const phone = document.getElementById('loginPhone').value.trim();
+    const password = document.getElementById('loginPassword').value;
+    const msg = document.getElementById('loginMsg');
+
+    if(!phone){ msg.textContent = 'মোবাইল নম্বর লিখুন।'; return; }
+    if(!password){ msg.textContent = 'পাসওয়ার্ড লিখুন।'; return; }
+
+    if(!usersDb[phone] || usersDb[phone].password !== password){
+        msg.textContent = 'নম্বর অথবা পাসওয়ার্ড ভুল হয়েছে।';
+        return;
+    }
+
+    showLoading("লগইন হচ্ছে...", () => {
+        currentUserPhone = phone;
+        localStorage.setItem('aviator_current_user', phone);
+        balance = usersDb[phone].balance !== undefined ? usersDb[phone].balance : 10000;
+        
+        msg.textContent = '';
+        checkAuthStatus();
+    });
+}
+
+function handleLogout(){
+    showLoading("লগআউট হচ্ছে...", () => {
+        currentUserPhone = null;
+        localStorage.removeItem('aviator_current_user');
+        checkAuthStatus();
+    });
+}
+
+function checkAuthStatus(){
+    if(!currentUserPhone){
+        document.getElementById('authScreen').classList.add('active');
+        document.getElementById('homeScreen').classList.remove('active');
+        document.getElementById('gameScreen').classList.remove('active');
+        document.getElementById('profileScreen').classList.remove('active');
+    } else {
+        document.getElementById('authScreen').classList.remove('active');
+        showScreen('homeScreen');
+        loadUserData();
+    }
+}
+
+function loadUserData(){
+    if(currentUserPhone && usersDb[currentUserPhone]){
+        balance = usersDb[currentUserPhone].balance;
+        const phoneEl = document.getElementById('profilePhone');
+        if(phoneEl) phoneEl.textContent = currentUserPhone;
+        const nickEl = document.getElementById('profileNickname');
+        if(nickEl) nickEl.textContent = usersDb[currentUserPhone].name || 'Not set';
+    }
+    updateBalance();
+}
+
+function fmt(n){return Math.round(Number(n)||0).toLocaleString('en-US')}
+
+function updateBalance(){
+    if(currentUserPhone && usersDb[currentUserPhone]){
+        usersDb[currentUserPhone].balance = balance;
+        localStorage.setItem('aviator_users_db', JSON.stringify(usersDb));
+    }
+    const b=document.getElementById('balance');if(b)b.textContent=fmt(balance);syncAppBalance()
+}
+
+function syncAppBalance(){
+    ['homeBalance','profileBalance','profileBalance2','moneyBalance'].forEach(id=>{const e=document.getElementById(id);if(e)e.textContent=fmt(balance)});
+    const h=document.getElementById('homeHistory');if(h)h.innerHTML=history.length?history.slice(0,6).map(x=>`<div class="item"><span>Crash</span><strong>${x.toFixed(2)}×</strong></div>`).join(''):'<div class="item"><span>Round</span><strong>Waiting...</strong></div>';
+    updateDepositNumberDisplay();
+    
+    const refCodeEl = document.getElementById('myReferCode');
+    if(refCodeEl) refCodeEl.value = myReferCode + ' (Link: ' + window.location.origin + window.location.pathname + '?ref=' + myReferCode + ')';
+    const refCountEl = document.getElementById('totalReferredCount');
+    if(refCountEl) refCountEl.textContent = referStats.count + ' জন';
+    const refBonusEl = document.getElementById('totalReferBonus');
+    if(refBonusEl) refBonusEl.textContent = '৳' + fmt(referStats.bonusEarned);
+}
+
+function copyReferCode(){
+    const codeBox = document.getElementById('myReferCode');
+    codeBox.select();
+    navigator.clipboard.writeText(codeBox.value);
+    alert('রেফার কোড ও লিংক কপি করা হয়েছে!');
+}
+
+function shareToSocial(platform){
+    const shareText = `অ্যাভিয়েটর গেম খেলুন এবং দারুন সব রিওয়ার্ড জিতুন! আমার রেফার কোড ব্যবহার করে জয়েন করুন: ${myReferCode}\nলিংক: ${window.location.origin}${window.location.pathname}?ref=${myReferCode}`;
+    const encodedText = encodeURIComponent(shareText);
+
+    if(platform === 'whatsapp'){
+        window.open(`https://api.whatsapp.com/send?text=${encodedText}`, '_blank');
+    } else if(platform === 'telegram'){
+        window.open(`https://t.me/share/url?url=${encodeURIComponent(window.location.origin + window.location.pathname + '?ref=' + myReferCode)}&text=${encodeURIComponent('অ্যাভিয়েটর গেম খেলুন, রেফার কোড: ' + myReferCode)}`, '_blank');
+    } else if(platform === 'facebook'){
+        window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.origin + window.location.pathname + '?ref=' + myReferCode)}`, '_blank');
+    } else if(platform === 'imo'){
+        navigator.clipboard.writeText(shareText);
+        window.open(`imomessenger://`, '_blank');
+        alert('শেয়ার টেক্সট কপি করা হয়েছে! IMO ওপেন হলে পেস্ট করে দিন।');
+    } else if(platform === 'browser'){
+        if(navigator.share){
+            navigator.share({
+                title: 'Aviator Refer & Earn',
+                text: 'অ্যাভিয়েটর গেম রেফারেল বোনাস পেতে জয়েন করুন:',
+                url: window.location.origin + window.location.pathname + '?ref=' + myReferCode,
+            }).catch(() => {});
+        } else {
+            copyReferCode();
+        }
+    }
+}
+
+function updateDepositNumberDisplay(){
+    let freshDb = JSON.parse(localStorage.getItem('aviator_full_db')) || globalDb;
+    let targetNum = freshDb.numbers ? freshDb.numbers[demoDepositMethod] : '01XXXXXXXXX';
+    const numEl = document.getElementById('paymentNumber');
+    if(numEl) numEl.textContent = targetNum || '01XXXXXXXXX';
+}
+
+function randomCrash(){const r=Math.random();if(r<.62)return +(1.05+Math.random()*1.95).toFixed(2);if(r<.90)return +(3+Math.random()*7).toFixed(2);if(r<.975)return +(10+Math.random()*40).toFixed(2);return +(50+Math.random()*1950).toFixed(2)}
+function placeBet(slot){if(crashed||bets[slot].active)return;const amount=Number(document.getElementById('bet'+slot).value);if(!amount||amount<10||amount>20000){alert('প্রতি Bet-এর সীমা ৳10–৳20,000।');return}if(amount>balance){alert('ভার্চুয়াল ব্যালেন্স যথেষ্ট নেই।');return}balance-=amount;bets[slot]={active:true,amount};updateBalance();document.getElementById('betBtn'+slot).textContent='BET ACTIVE';document.getElementById('cashBtn'+slot).disabled=false}
+function cashOut(slot){if(!bets[slot].active||crashed)return;balance+=bets[slot].amount*multiplier;bets[slot]={active:false,amount:0};updateBalance();document.getElementById('cashBtn'+slot).disabled=true;document.getElementById('betBtn'+slot).textContent='BET SETTLED'}
+function render(t){if(crashed)return;const elapsed=(t-start)/1000;multiplier=Math.min(2000,Math.exp(elapsed*.34));if(multiplier>=crashAt){multiplier=crashAt;doCrash();return}multEl.textContent=multiplier.toFixed(2)+'×';plane.style.left=Math.min(82,12+elapsed*5.5)+'%';plane.style.bottom=Math.min(78,13+elapsed*2.5)+'%';[1,2].forEach(slot=>{if(bets[slot].active){const a=Number(document.getElementById('auto'+slot).value);if(a>=1.01&&multiplier>=a)cashOut(slot)}});requestAnimationFrame(render)}
+function doCrash(){crashed=true;stateEl.textContent='CRASHED';sky.classList.add('crashed');multEl.textContent=multiplier.toFixed(2)+'×';plane.style.transition='left .25s ease,bottom 1.15s cubic-bezier(.55,.05,.7,.2)';plane.style.bottom='-15%';plane.style.transform='rotate(35deg)';history.unshift(multiplier);history=history.slice(0,8);document.getElementById('history').innerHTML=history.map(x=>`<div class="pill ${x>=10?'hot':''}">${x.toFixed(2)}×</div>`).join('');syncAppBalance();[1,2].forEach(slot=>{bets[slot]={active:false,amount:0};document.getElementById('cashBtn'+slot).disabled=true;document.getElementById('betBtn'+slot).textContent='NEXT ROUND'});setTimeout(startCountdown,1500)}
+function startCountdown(){clearInterval(countdownTimer);countdown.style.display='flex';let n=10;countNum.textContent=n;stateEl.textContent='NEXT ROUND';countdownTimer=setInterval(()=>{n--;countNum.textContent=n;if(n<=0){clearInterval(countdownTimer);countdown.style.display='none';nextRound()}},1000)}
+function nextRound(){roundNo++;document.getElementById('round').textContent='ROUND #'+String(roundNo).padStart(3,'0');stateEl.textContent='FLYING';sky.classList.remove('crashed');plane.style.transition='none';plane.style.transform='none';plane.style.left='12%';plane.style.bottom='13%';multiplier=1;crashAt=randomCrash();start=performance.now();crashed=false;[1,2].forEach(slot=>document.getElementById('betBtn'+slot).textContent='BET '+slot);multEl.textContent='1.00×';requestAnimationFrame(render)}
+function showScreen(id){if(!currentUserPhone){checkAuthStatus();return;}document.querySelectorAll('.screen').forEach(x=>x.classList.remove('active'));const el=document.getElementById(id);if(el)el.classList.add('active');document.querySelectorAll('.nav button').forEach(x=>x.classList.remove('active'));const map={homeScreen:'navHome',gameScreen:'navGame',profileScreen:'navProfile'};const nav=document.getElementById(map[id]);if(nav)nav.classList.add('active');syncAppBalance()}
+</script>
+
+<script>
+let transactionPassword=localStorage.getItem('aviator_demo_tx_password')||'';
+function openPasswordModal(){const m=document.getElementById('passwordModal');m.classList.add('show');document.getElementById('oldPw').value='';document.getElementById('newPw').value='';document.getElementById('confirmPw').value='';document.getElementById('pwMsg').textContent=''}
+function closePasswordModal(){document.getElementById('passwordModal').classList.remove('show')}
+function saveTransactionPassword(){const oldPw=document.getElementById('oldPw').value,newPw=document.getElementById('newPw').value,confirm=document.getElementById('confirmPw').value,msg=document.getElementById('pwMsg');if(!newPw||newPw.length<6){msg.textContent='কমপক্ষে ৬ অক্ষরের password দিন।';return}if(newPw!==confirm){msg.textContent='New password এবং confirm password মিলছে না।';return}if(transactionPassword&&oldPw!==transactionPassword){msg.textContent='পুরাতন password সঠিক নয়।';return}transactionPassword=newPw;localStorage.setItem('aviator_demo_tx_password',transactionPassword);document.getElementById('passwordStatus').textContent='Password is set ✓';msg.textContent='Password successfully updated ✓';setTimeout(closePasswordModal,700)}
+</script>
+
+<script>
+let demoDepositMethod='bKash';
+function openProfileModal(id){const m=document.getElementById(id);if(!m)return;m.classList.add('show');if(id==='moneyModal'){cleanWithdrawRequests();renderWithdrawHistory();syncAppBalance();showMoneyTab('withdraw')}if(id==='depositModal'){updateDepositPreview();updateDepositNumberDisplay()}if(id==='referModal'){syncAppBalance()}}
+function closeProfileModal(id){const m=document.getElementById(id);if(m)m.classList.remove('show')}
+function modalBackdrop(e,id){if(e.target===e.currentTarget)closeProfileModal(id)}
+function selectMethod(method){demoDepositMethod=method;document.getElementById('depositMethod').textContent='Selected: '+method;document.querySelectorAll('#depositModal .payment-logo').forEach(b=>b.classList.remove('active'));const id={bKash:'depositMethodBkash',Nagad:'depositMethodNagad',Rocket:'depositMethodRocket'}[method];document.getElementById(id).classList.add('active');updateDepositNumberDisplay()}
+function updateDepositPreview(){const amount=Math.max(0,Number(document.getElementById('depositAmount').value)||0),bonus=Math.round(amount*.20);document.getElementById('depositPreview').textContent='৳'+fmt(amount);document.getElementById('depositBonusPreview').textContent='৳'+fmt(bonus);document.getElementById('depositTotalPreview').textContent='৳'+fmt(amount+bonus)}
+function clearQuickDepositActive(){document.querySelectorAll('#depositModal .quick-amount').forEach(b=>b.classList.remove('active'))}
+function setDepositAmount(amount){document.getElementById('depositAmount').value=amount;updateDepositPreview();document.querySelectorAll('#depositModal .quick-amount').forEach(b=>b.classList.toggle('active',b.textContent.replace(/[^0-9]/g,'')===String(amount)))}
+function submitDemoDeposit(){
+    const amount=Number(document.getElementById('depositAmount').value);
+    const sender=document.getElementById('senderNum').value.trim();
+    const tx=document.getElementById('depositTx').value.trim();
+    const msg=document.getElementById('depositMsg');
+    
+    if(!Number.isFinite(amount)||amount<100||amount>5000){msg.textContent='Deposit amount অবশ্যই ৳100 থেকে ৳5,000 হতে হবে।';return}
+    if(!sender){msg.textContent='আপনার প্রেরক নম্বর দিন।';return}
+    if(!tx){msg.textContent='Demo Transaction ID দিন।';return}
+    
+    let freshDb = JSON.parse(localStorage.getItem('aviator_full_db')) || globalDb;
+    const bonus=Math.round(amount*.20),total=amount+bonus;
+    
+    let newReq = {
+        id: Date.now(),
+        method: demoDepositMethod,
+        sender: sender,
+        amount: total,
+        baseAmount: amount,
+        bonus: bonus,
+        trx: tx,
+        status: 'Pending'
+    };
+    
+    if(!freshDb.requests) freshDb.requests = [];
+    freshDb.requests.unshift(newReq);
+    localStorage.setItem('aviator_full_db', JSON.stringify(freshDb));
+    
+    if(amount >= 2000 && !localStorage.getItem('aviator_refer_bonus_claimed')){
+        localStorage.setItem('aviator_refer_bonus_claimed', 'true');
+        referStats.count += 1;
+        referStats.bonusEarned += 300;
+        localStorage.setItem('aviator_refer_stats', JSON.stringify(referStats));
+        balance += 300;
+    }
+
+    document.getElementById('successDeposit').textContent='৳'+fmt(amount);
+    document.getElementById('successBonus').textContent='৳'+fmt(bonus);
+    document.getElementById('successTotal').textContent='৳'+fmt(total);
+    document.getElementById('depositTx').value='';
+    document.getElementById('senderNum').value='';
+    msg.textContent='';
+    closeProfileModal('depositModal');
+    openProfileModal('depositSuccessModal');
+    updateBalance();
+}
+</script>
+
+<script>
+let demoWithdrawMethod='bKash';let demoWithdrawRequests=[];try{demoWithdrawRequests=JSON.parse(localStorage.getItem('aviator_demo_withdraws')||'[]')}catch(e){demoWithdrawRequests=[]}
+function selectWithdrawMethod(method){demoWithdrawMethod=method;document.getElementById('withdrawMethod').textContent='Selected: '+method;document.querySelectorAll('#moneyModal .payment-logo').forEach(b=>b.classList.remove('active'));const id={bKash:'withdrawMethodBkash',Nagad:'withdrawMethodNagad',Rocket:'withdrawMethodRocket'}[method];document.getElementById(id).classList.add('active')}
+function cleanWithdrawRequests(){const now=Date.now();demoWithdrawRequests=demoWithdrawRequests.filter(x=>now-x.createdAt<86400000);localStorage.setItem('aviator_demo_withdraws',JSON.stringify(demoWithdrawRequests))}
+function setWithdrawAmount(amount){document.getElementById('withdrawAmount').value=amount}
+function submitDemoWithdraw(){cleanWithdrawRequests();const amount=Number(document.getElementById('withdrawAmount').value),number=document.getElementById('withdrawNumber').value.trim(),password=document.getElementById('withdrawPassword').value,msg=document.getElementById('withdrawMsg');if(!Number.isFinite(amount)||amount<100||amount>20000){msg.textContent='Withdraw amount অবশ্যই ৳100 থেকে ৳20,000 হতে হবে।';return}if(!number){msg.textContent='Demo account number দিন।';return}if(!transactionPassword){msg.textContent='প্রথমে Settings থেকে Transaction Password সেট করুন।';return}if(password!==transactionPassword){msg.textContent='Transaction Password সঠিক নয়।';return}if(amount>balance){msg.textContent='পর্যাপ্ত demo balance নেই।';return}if(demoWithdrawRequests.length>=99){msg.textContent='গত ২৪ ঘণ্টায় সর্বোচ্চ ৯৯টি demo request হয়ে গেছে।';return}balance-=amount;updateBalance();const request={method:demoWithdrawMethod,amount,number,createdAt:Date.now(),status:'Pending'};demoWithdrawRequests.push(request);localStorage.setItem('aviator_demo_withdraws',JSON.stringify(demoWithdrawRequests));document.getElementById('successWithdraw').textContent='৳'+fmt(amount);document.getElementById('successWithdrawMethod').textContent=demoWithdrawMethod;document.getElementById('withdrawPassword'].value='';document.getElementById('withdrawNumber'].value='';msg.textContent='';renderWithdrawHistory();closeProfileModal('moneyModal');openProfileModal('withdrawSuccessModal')}
+function showMoneyTab(tab){const h=tab==='history';document.getElementById('withdrawPanel').style.display=h?'none':'block';document.getElementById('historyPanel').style.display=h?'block':'none';document.getElementById('withdrawTab').classList.toggle('active',!h);document.getElementById('historyTab').classList.toggle('active',h);if(h)renderWithdrawHistory()}
+function renderWithdrawHistory(){cleanWithdrawRequests();const el=document.getElementById('withdrawHistoryList');if(!el)return;if(!demoWithdrawRequests.length){el.innerHTML='<div class="modal-note" style="padding:15px;text-align:center">এখনও কোনো demo withdraw request নেই।</div>';return}el.innerHTML=demoWithdrawRequests.slice().reverse().map(x=>{const minutes=Math.max(0,Math.floor((Date.now()-x.createdAt)/60000));const ago=minutes<60?minutes+' min ago':Math.floor(minutes/60)+' hr ago';return `<div class="history-item"><div class="history-item-top"><strong>৳${fmt(x.amount)}</strong><strong class="pending">${x.status}</strong></div><div class="modal-note" style="margin-top:5px">${x.method} • ${ago}<br>Account: ${escapeHtml(x.number)}<br>Demo status window: 24 hours</div></div>`}).join('')}
+function escapeHtml(s){return String(s).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]||m))}
+</script>
+
+<script>
+const nicknameKey='aviator_demo_nickname';
+function toggleNicknameForm(){const f=document.getElementById('nicknameForm'),m=document.getElementById('nicknameMsg');f.classList.toggle('show');m.textContent='';if(f.classList.contains('show'))document.getElementById('nicknameInput').focus()}
+function saveNickname(){
+    const i=document.getElementById('nicknameInput'),m=document.getElementById('nicknameMsg'),n=i.value.trim();
+    if(!n){m.textContent='একটি Nickname লিখুন।';return}
+    if(n.length<2){m.textContent='Nickname কমপক্ষে ২ অক্ষরের হতে হবে।';return}
+    
+    if(currentUserPhone && usersDb[currentUserPhone]){
+        usersDb[currentUserPhone].name = n;
+        localStorage.setItem('aviator_users_db', JSON.stringify(usersDb));
+    }
+    document.getElementById('profileNickname').textContent=n;
+    m.textContent='Nickname saved ✓';
+    setTimeout(()=>document.getElementById('nicknameForm').classList.remove('show'),700)
+}
+
+function platformCodeCheck(){
+    const urlParams = new URLSearchParams(window.location.search);
+    const refParam = urlParams.get('ref');
+    if(refParam){
+        console.log("Joined via refer code: ", refParam);
+    }
+}
+
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){['referModal','depositModal','depositSuccessModal','moneyModal','withdrawSuccessModal','passwordModal'].forEach(id=>closeProfileModal(id));closePasswordModal()}})
+window.addEventListener('DOMContentLoaded',()=>{
+    checkAuthStatus();
+    startCountdown();
+    updateDepositPreview();
+    renderWithdrawHistory();
+    platformCodeCheck();
+    
+    setInterval(()=>{
+        let freshDb = JSON.parse(localStorage.getItem('aviator_full_db'));
+        if(freshDb && freshDb.userBalance !== balance && currentUserPhone){
+            // sync if needed
+        }
+    }, 1000);
+});
+</script>
+</body>
+</html>
