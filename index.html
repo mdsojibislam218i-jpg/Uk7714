@@ -10,6 +10,7 @@
 .auth-container{max-width:420px;margin:60px auto;padding:20px}.auth-card{background:#191f29;border:1px solid #2a303b;border-radius:16px;padding:24px}.auth-tabs{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:20px;background:#11161e;padding:4px;border-radius:10px}.auth-tab{background:transparent;color:#9da7b6;padding:10px;border-radius:8px;font-weight:bold;cursor:pointer}.auth-tab.active{background:#202733;color:#fff}
 .loading-overlay{display:none;position:fixed;inset:0;background:rgba(8,10,15,0.85);z-index:999;align-items:center;justify-content:center;flex-direction:column}.loading-overlay.show{display:flex}.spinner{width:50px;height:50px;border:4px solid #303846;border-top-color:#20b56b;border-radius:50%;animation:spin 0.8s linear infinite;margin-bottom:15px}@keyframes spin{to{transform:rotate(360deg)}}.loading-text{font-size:16px;font-weight:bold;color:#fff;letter-spacing:1px}
 
+/* Social Share Grid for Refer */
 .social-share-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:12px}
 .social-share-btn{border:0;border-radius:10px;padding:10px 4px;font-size:11px;font-weight:900;color:#fff;cursor:pointer;text-align:center;display:flex;flex-direction:column;align-items:center;gap:4px}
 .whatsapp-share{background:#25d366}
@@ -17,6 +18,7 @@
 .telegram-share{background:#0088cc}
 .facebook-share{background:#1877f2}
 
+/* Game Grid CSS */
 .game-cards-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:10px}
 .game-card-item{background:linear-gradient(135deg,#1e2636,#111722);border:1px solid #2a303b;border-radius:12px;padding:14px;text-align:center;cursor:pointer;text-decoration:none;color:#fff;transition:0.2s}
 .game-card-item:hover{border-color:#ffcf72;transform:translateY(-2px)}
@@ -96,30 +98,37 @@
       <button class="cash" style="margin-top:12px;background:linear-gradient(135deg,#ffb300,#f57c00)" type="button" onclick="openProfileModal('referModal')">REFER & EARN</button>
     </div>
 
+    <!-- গেম গ্রিড সেকশন (সকল গেম সংরক্ষিত) -->
     <div class="card">
       <div style="font-size:16px;font-weight:900;margin-bottom:8px">🎮 All Games</div>
       <div class="game-cards-grid">
+        <!-- ১. সুপার এস স্লট গেম -->
         <a href="super_ace.html" target="_blank" class="game-card-item" style="background: linear-gradient(135deg, #4a00e0, #8e2de2);">
           <div class="game-card-icon">👑</div>
           <div class="game-card-title">Super Ace Slot</div>
           <div style="font-size: 10px; color: #ffd700; margin-top:2px;">খেলুন এবং বাড়ান!</div>
         </a>
+        <!-- ২. Chinese New Year Slot -->
         <a href="cny_slot.html" target="_blank" class="game-card-item">
           <div class="game-card-icon">🧧</div>
           <div class="game-card-title">Chinese New Year</div>
         </a>
+        <!-- ৩. ভিআইপি স্লট গেম -->
         <a href="slot.html" target="_blank" class="game-card-item">
           <div class="game-card-icon">🎰</div>
           <div class="game-card-title">VIP Slot Game</div>
         </a>
+        <!-- ৪. সুপার এস গেম -->
         <a href="game.html" target="_blank" class="game-card-item">
           <div class="game-card-icon">🃏</div>
           <div class="game-card-title">Super Ace</div>
         </a>
+        <!-- ৫. ক্র্যাশ গেম -->
         <div class="game-card-item" onclick="showScreen('gameScreen')">
           <div class="game-card-icon">✈️</div>
           <div class="game-card-title">Crash Game</div>
         </div>
+        <!-- ৬. লুডু লবি -->
         <div class="game-card-item" onclick="alert('লুডু লবি শীঘ্রই আসছে!')">
           <div class="game-card-icon">🎲</div>
           <div class="game-card-title">লুডু লবি</div>
@@ -175,7 +184,7 @@
         <div style="font-size:21px;font-weight:900">🎁 Referral Program</div>
         <button class="modal-close" type="button" onclick="closeProfileModal('referModal')">×</button>
       </div>
-      <div class="modal-note">আপনার অ্যাপের নাম এবং ইউনিক রেফার আইডি সহ লিংক শেয়ার করুন। বন্ধু এই লিংকে ক্লিক করে অ্যাকাউন্ট খুলে মোট ৳২,০০০ ডিপোজিট ও ৳৫,০০০ বাজি ধরলেই আপনি পাবেন ৳৩৯৯ বোনাস!</div>
+      <div class="modal-note">আপনার অ্যাপের নাম এবং ইউনিক রেফার আইডি সহ লিংক শেয়ার করুন। বন্ধু এই লিংকে ক্লিক করে অ্যাকাউন্ট খুলে মোট ৳২,০০০ ডিপোজিট ও ৳৫,০০০ বাজি ধরলেই পাবেন ৳৩৯৯ বোনাস!</div>
       
       <label style="margin-top:12px">অ্যাপের নাম ও রেফার আইডিযুক্ত লিংক</label>
       <div class="row">
@@ -196,9 +205,10 @@
       <div class="bonus-box" style="margin-top:15px">
         <div class="bonus-title">📊 আপনার রেফার স্ট্যাটাস</div>
         <div class="bonus-row"><span>মোট রেফার সফল:</span><strong id="totalReferredCount">0 জন</strong></div>
-        <div class="bonus-row"><span>মোট ডিপোজিটকারী বন্ধু:</span><strong id="totalDepositCount">0 জন</strong></div>
-        <div class="bonus-row"><span>শেষ ১২ ঘণ্টায় ডিপোজিট:</span><strong id="last12hDepositCount">0 জন</strong></div>
         <div class="bonus-row"><span>বোনাস অর্জিত:</span><strong id="totalReferBonus">৳0</strong></div>
+        <!-- নতুন দুটি ফিচার যোগ করা হলো -->
+        <div class="bonus-row"><span>মোট ডিপোজিট (All Deposits):</span><strong id="totalReferredDeposits">৳0</strong></div>
+        <div class="bonus-row"><span>শেষ ১২ ঘণ্টায় ডিপোজিটকারী:</span><strong id="last12HoursDepositorsCount">0 জন</strong></div>
       </div>
     </div>
   </div>
@@ -253,6 +263,7 @@
   <div class="nav"><button id="navHome" class="active" onclick="showScreen('homeScreen')">⌂<br>Home</button><button id="navGame" onclick="showScreen('gameScreen')">✈️<br>Game</button><button id="navProfile" onclick="showScreen('profileScreen')">👤<br>Profile</button></div>
 </div>
 
+<!-- Firebase SDK & Real-time Numbers Listener -->
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
   import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-analytics.js";
@@ -392,12 +403,12 @@ function handleRegister(){
             referredBy: referredBy,
             totalDeposit: 0,
             referBonusGiven: false,
-            referStats: { count: 0, bonusEarned: 0, totalDeposits: 0, recentDeposits: [] },
+            referStats: { count: 0, bonusEarned: 0 },
             lastActive: Date.now()
         };
 
         if(referredBy && usersDb[referredBy]){
-            if(!usersDb[referredBy].referStats) usersDb[referredBy].referStats = { count: 0, bonusEarned: 0, totalDeposits: 0, recentDeposits: [] };
+            if(!usersDb[referredBy].referStats) usersDb[referredBy].referStats = { count: 0, bonusEarned: 0 };
             usersDb[referredBy].referStats.count += 1;
         }
 
@@ -503,24 +514,36 @@ function syncAppBalance(){
 
         const refCountEl = document.getElementById('totalReferredCount');
         if(refCountEl) refCountEl.textContent = (user.referStats ? user.referStats.count : 0) + ' জন';
-        
-        // ড্যাশবোর্ডে মোট ও ১২ ঘণ্টার ডিপোজিট হিসাব আপডেট
-        if(!user.referStats) user.referStats = { count: 0, bonusEarned: 0, totalDeposits: 0, recentDeposits: [] };
-        let totalDeps = user.referStats.totalDeposits || 0;
-        
-        let now = Date.now();
-        let twelveHoursInMs = 12 * 60 * 60 * 1000;
-        let recentList = user.referStats.recentDeposits || [];
-        let countLast12Hours = recentList.filter(item => (now - item.time) <= twelveHoursInMs).length;
-
-        const totalDepEl = document.getElementById('totalDepositCount');
-        if(totalDepEl) totalDepEl.textContent = totalDeps + ' জন';
-
-        const last12El = document.getElementById('last12hDepositCount');
-        if(last12El) last12El.textContent = countLast12Hours + ' জন';
-
         const refBonusEl = document.getElementById('totalReferBonus');
         if(refBonusEl) refBonusEl.textContent = '৳' + fmt(user.referStats ? user.referStats.bonusEarned : 0);
+
+        // মোট ডিপোজিট এবং শেষ ১২ ঘণ্টার ডিপোজিটকারী বন্ধুর সংখ্যা ক্যালকুলেশন ও আপডেট
+        let freshDb = JSON.parse(localStorage.getItem('aviator_full_db')) || globalDb;
+        let allRequests = freshDb.requests || [];
+        
+        let referredPhones = Object.keys(usersDb).filter(phone => usersDb[phone].referredBy === currentUserPhone);
+        
+        let totalReferredDeposits = 0;
+        let recentDepositorsSet = new Set();
+        let twelveHoursAgo = Date.now() - (12 * 60 * 60 * 1000);
+
+        allRequests.forEach(req => {
+            if(referredPhones.includes(req.userPhone) && req.status === 'Pending' || req.status === 'Approved' || req.status === 'Success'){
+                // এখানে সফল বা সব রিকুয়েস্ট কাউন্ট করতে পারো, বেস অ্যামাউন্ট যোগ করা হলো
+                let depAmount = req.baseAmount || req.amount || 0;
+                totalReferredDeposits += depAmount;
+
+                if(req.createdAt >= twelveHoursAgo){
+                    recentDepositorsSet.add(req.userPhone);
+                }
+            }
+        });
+
+        const totalDepEl = document.getElementById('totalReferredDeposits');
+        if(totalDepEl) totalDepEl.textContent = '৳' + fmt(totalReferredDeposits);
+
+        const last12CountEl = document.getElementById('last12HoursDepositorsCount');
+        if(last12CountEl) last12CountEl.textContent = recentDepositorsSet.size + ' জন';
 
         const tTarget = document.getElementById('turnoverTarget');
         const tCurrent = document.getElementById('turnoverCurrent');
@@ -589,7 +612,7 @@ function placeBet(slot){
                 user.referBonusGiven = true;
                 let referrer = usersDb[user.referredBy];
                 if(referrer){
-                    if(!referrer.referStats) referrer.referStats = { count: 0, bonusEarned: 0, totalDeposits: 0, recentDeposits: [] };
+                    if(!referrer.referStats) referrer.referStats = { count: 0, bonusEarned: 0 };
                     referrer.referStats.bonusEarned += 399;
                     referrer.balance += 399;
                 }
@@ -626,7 +649,7 @@ function modalBackdrop(e,id){if(e.target===e.currentTarget)closeProfileModal(id)
 function selectMethod(method){demoDepositMethod=method;document.getElementById('depositMethod').textContent='Selected: '+method;document.querySelectorAll('#depositModal .payment-logo').forEach(b=>b.classList.remove('active'));const id={bKash:'depositMethodBkash',Nagad:'depositMethodNagad',Rocket:'depositMethodRocket'}[method];document.getElementById(id).classList.add('active');updateDepositNumberDisplay()}
 function updateDepositPreview(){const amount=Math.max(0,Number(document.getElementById('depositAmount').value)||0),bonus=Math.round(amount*.20);document.getElementById('depositPreview').textContent='৳'+fmt(amount);document.getElementById('depositBonusPreview').textContent='৳'+fmt(bonus);document.getElementById('depositTotalPreview').textContent='৳'+fmt(amount+bonus)}
 function clearQuickDepositActive(){document.querySelectorAll('#depositModal .quick-amount').forEach(b=>b.classList.remove('active'))}
-function setDepositAmount(amount){document.getElementById('depositAmount').value=amount;updateDepositPreview();document.querySelectorAll('#depositModal .quick-amount').forEach(b=>b.classList.toggle('active',b.textContent.replace(/[^0-9]/g,')===String(amount)))}
+function setDepositAmount(amount){document.getElementById('depositAmount').value=amount;updateDepositPreview();document.querySelectorAll('#depositModal .quick-amount').forEach(b=>b.classList.toggle('active',b.textContent.replace(/[^0-9]/g,'')===String(amount)))}
 
 function submitDemoDeposit(){
     const amount=Number(document.getElementById('depositAmount').value);
@@ -640,32 +663,17 @@ function submitDemoDeposit(){
     
     let currentUser = usersDb[currentUserPhone];
     if(currentUser){
-        let isFirstTimeDeposit = !currentUser.hasDeposited;
-        currentUser.hasDeposited = true;
         currentUser.totalDeposit = (currentUser.totalDeposit || 0) + amount;
         
         const bonus=Math.round(amount*.20),total=amount+bonus;
         currentUser.turnoverTarget = (currentUser.turnoverTarget || 0) + total;
-
-        // রেফারকারী ইউজারের ডেটায় ডিপোজিট ট্র্যাক করার লজিক (মোট এবং শেষ ১২ ঘণ্টা)
-        if(isFirstTimeDeposit && currentUser.referredBy && usersDb[currentUser.referredBy]){
-            let referrer = usersDb[currentUser.referredBy];
-            if(!referrer.referStats) referrer.referStats = { count: 0, bonusEarned: 0, totalDeposits: 0, recentDeposits: [] };
-            
-            referrer.referStats.totalDeposits = (referrer.referStats.totalDeposits || 0) + 1;
-            if(!referrer.referStats.recentDeposits) referrer.referStats.recentDeposits = [];
-            referrer.referStats.recentDeposits.push({
-                friendPhone: currentUserPhone,
-                time: Date.now()
-            });
-        }
 
         if(currentUser.referredBy && !currentUser.referBonusGiven){
             if(currentUser.totalDeposit >= 2000 && (currentUser.turnoverCurrent || 0) >= 5000){
                 currentUser.referBonusGiven = true;
                 let referrer = usersDb[currentUser.referredBy];
                 if(referrer){
-                    if(!referrer.referStats) referrer.referStats = { count: 0, bonusEarned: 0, totalDeposits: 0, recentDeposits: [] };
+                    if(!referrer.referStats) referrer.referStats = { count: 0, bonusEarned: 0 };
                     referrer.referStats.bonusEarned += 399;
                     referrer.balance += 399;
                 }
